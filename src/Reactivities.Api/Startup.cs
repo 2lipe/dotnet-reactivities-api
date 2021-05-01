@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Reactivities.Application.Activities;
+using Reactivities.Application.Mappers;
 using Reactivities.Infra.Context;
 
 namespace Reactivities.Api
@@ -43,6 +44,7 @@ namespace Reactivities.Api
             });
 
             services.AddMediatR(typeof(ListActivity).Assembly);
+            services.AddAutoMapper(typeof(ActivityProfileMapper).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
