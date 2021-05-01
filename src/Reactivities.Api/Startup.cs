@@ -34,6 +34,14 @@ namespace Reactivities.Api
                 options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                });
+            });
+
             services.AddScoped<IActivityService, ActivityService>();
         }
 
@@ -50,6 +58,8 @@ namespace Reactivities.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
