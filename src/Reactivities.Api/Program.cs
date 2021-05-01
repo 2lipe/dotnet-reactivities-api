@@ -1,16 +1,18 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Reactivities.Infra.Context;
+using Reactivities.Infra.Seed;
 
 namespace Reactivities.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -18,21 +20,22 @@ namespace Reactivities.Api
 
             var services = scope.ServiceProvider;
             
-            RunMigration(services);
+            await RunMigrationAsync(services);
             
-            host.Run();
+            await host.RunAsync();
         }
         
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         
-        private static void RunMigration(IServiceProvider services)
+        private static async Task RunMigrationAsync(IServiceProvider services)
         {
             try
             {
                 var context = services.GetRequiredService<DataContext>();
-                context.Database.Migrate();
+                await context.Database.MigrateAsync();
+                await Seed.SeedData(context);
             }
             catch (Exception e)
             {
