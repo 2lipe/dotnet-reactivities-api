@@ -12,7 +12,7 @@ namespace Reactivities.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
-            var result = await Mediator.Send(new ActivityList.Query());
+            var result = await Mediator.Send(new ListActivity.Query());
 
             return Result(result);
         }
@@ -20,6 +20,28 @@ namespace Reactivities.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> GetActivity(Guid id)
         {
+            var result = await Mediator.Send(new DetailActivity.Query{ Id = id});
+
+            return Result(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateActivity(Activity activity)
+        {
+            await Mediator.Send(new CreateActivity.Command { Activity = activity });
+            
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateActivity(Guid id, Activity activity)
+        {
+            await Mediator.Send(new UpdateActivity.Command 
+                { 
+                    Id = id, 
+                    Activity = activity 
+                });
+
             return Ok();
         }
     }

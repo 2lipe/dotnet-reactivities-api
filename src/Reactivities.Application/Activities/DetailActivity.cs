@@ -1,29 +1,31 @@
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Reactivities.Domain.Entities;
 using Reactivities.Infra.Context;
 
 namespace Reactivities.Application.Activities
 {
-    public class ActivityList
+    public class DetailActivity
     {
-        public class Query : IRequest<List<Activity>> {}
-
-        public class Handler : IRequestHandler<Query, List<Activity>>
+        public class Query : IRequest<Activity>
+        {
+            public Guid Id { get; set; }
+        }
+        
+        public class Handler : IRequestHandler<Query, Activity>
         {
             private readonly DataContext _context;
-            
+
             public Handler(DataContext context)
             {
                 _context = context;
             }
             
-            public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Activities.ToListAsync();
+                return await _context.Activities.FindAsync(request.Id);
             }
         }
     }

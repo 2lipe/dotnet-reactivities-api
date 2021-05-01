@@ -42,7 +42,20 @@ namespace Reactivities.Api.Controllers
                 });
         }
 
-        #endregion [IActionResult] async
+        #endregion [ActionResult] async
         
+        #region [IActionResult] sync
+        
+        protected IActionResult Ok()
+        {
+            return new JsonResult(
+                new
+                {
+                    Success = true,
+                    Data = "Success!"
+                });
+        }
+
+        #endregion [IActionResult] async
     }
 }

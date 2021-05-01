@@ -42,7 +42,7 @@ namespace Reactivities.Api
                 });
             });
 
-            services.AddMediatR(typeof(ActivityList).Assembly);
+            services.AddMediatR(typeof(ListActivity).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
