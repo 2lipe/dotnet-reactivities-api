@@ -1,4 +1,6 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Reactivities.Api.Controllers
 {
@@ -9,6 +11,14 @@ namespace Reactivities.Api.Controllers
         public BaseController()
         {
         }
+        
+        #region [IMediator] sync
+        
+        private IMediator _mediator;
+
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>(); 
+        
+        #endregion [IMediator] async
 
         #region [ActionResult] sync
 
