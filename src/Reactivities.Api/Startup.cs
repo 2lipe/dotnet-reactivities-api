@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Reactivities.Application.Interfaces;
+using Reactivities.Application.Services;
 using Reactivities.Infra.Context;
 
 namespace Reactivities.Api
@@ -31,6 +33,8 @@ namespace Reactivities.Api
             {
                 options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<IActivityService, ActivityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
