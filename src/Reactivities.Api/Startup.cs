@@ -33,10 +33,10 @@ namespace Reactivities.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reactivities.Api v1"));
             }
 
-            app.UseHttpsRedirection();
-
+            //app.UseHttpsRedirection();
+            
             app.UseRouting();
-
+            
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
